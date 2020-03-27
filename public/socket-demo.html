@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>socket通信demo</title>
+    <script src="./socket.io/socket.io.js"></script>
+    <script>
+      var socket = io('http://localhost:8000');
+      socket.on('news', function (data) {
+      console.log(data);
+      socket.emit('my other event', { my: 'data' });
+  });
+</script>
+Using 
+    </script>
+  </head>
+  <body>
+    <button id="send">发送消息到服务器</button>
+    <div>
+      <h3>服务器响应的消息：</h3>
+      <i id="msg"></i>
+    </div>
+  </body>
+</html>

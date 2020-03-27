@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React!</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      class EquipmentList extends React.Component {
+        constructor(props) {
+          super(props);
+          const columns = [
+            {
+              title: '序号',
+              key: 'index'
+            },
+            {
+              title: '名称',
+              dataIndex: 'name',
+              key: 'name'
+            },
+            {
+              title: '所有者',
+              dataIndex: 'owner',
+              key: 'owner'
+            },
+            {
+              title: '站点',
+              dataIndex: 'station',
+              key: 'station'
+            },
+            {
+              title: '设备',
+              dataIndex: 'equipment',
+              key: 'equipment'
+            },
+            {
+              title: '供应商',
+              dataIndex: 'vendor',
+              key: 'vendor'
+            },
+            {
+              title: '项目',
+              dataIndex: 'project',
+              key: 'project'
+            }
+          ];
+          this.state = { columns, data: [] };
+        }
+
+        componentDidMount() {
+          fetch('/api/equipments')
+            .then(function(response) {
+              return response.json();
+            })
+            .then(results => {
+              this.setState({ data: results });
+            });
+        }
+
+        render() {
+          let head = this.state.columns.map((item, i) => (
+            <th align="left" key={item.key}>
+              {item.title}
+            </th>
+          ));
+          let body = this.state.data.map((item, i) => (
+            <tr align="left" key={item._id}>
+              <td align="left">{i + 1}</td>
+              <td align="left">{item.name}</td>
+              <td align="left">{item.owner}</td>
+              <td align="left">{item.station}</td>
+              <td align="left">{item.equipment}</td>
+              <td align="left">{item.vendor}</td>
+              <td align="left">{item.project}</td>
+            </tr>
+          ));
+          return (
+            <table>
+              <thead>
+                <tr>{head}</tr>
+              </thead>
+              <tbody>{body}</tbody>
+            </table>
+          );
+        }
+      }
+
+      ReactDOM.render(<EquipmentList />, document.getElementById('app'));
+    </script>
+  </body>
+</html>
